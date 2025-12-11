@@ -11,10 +11,20 @@ const Bookschema = new mongoose.Schema({
         required:[true,'Author name is required'], 
         trime:true,
     },
-    Genre:{
+    genre:{
         type:String, 
         required:[true,'Genre name is required'],
 
     },
+    year: {
+        type:Number, 
+        required:[true,'Year is required'],
+        createdAt:{
+            type:String, 
+            default:Date.now,
+        }
 
-})
+    }
+
+}); 
+module.exports=mongoose.model('Book',Bookschema);
