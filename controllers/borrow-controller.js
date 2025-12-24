@@ -47,6 +47,8 @@ const borrowBook=async (req,res)=>{
     }
 }
 
+//return book
+
 const returnBook=async (req,res)=>{
     try {
         const userId=req.user.userId;
@@ -78,6 +80,7 @@ const returnBook=async (req,res)=>{
     }
 }
 
+//fetch all borrows
 
 const getMyBorrows=async (req,res) => {
     try {
