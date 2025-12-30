@@ -3,22 +3,15 @@ const Book=require('../models/Book');
 const getAllBooks=async(req,res)=>{ 
     try{
         const findBooks=await Book.find({});
-        if(findBooks.length>0){
             res.status(200).json({
                 success:true,
                 message:"List Sent successfully",
                 data:findBooks
             });
-        }else{
-            res.status(404).json({
-                success:false,
-                message:"Unable to fetch books,no books available"
-            });
-        }
-
     }catch(e){
         console.log(e);
         res.status(500).json({
+            success:false,
             message:"Something went wrong"
         });
     }
@@ -33,13 +26,13 @@ const getBookById=async(req,res)=>{
         const singleBook=await Book.findById(bookId); 
 
         if(!singleBook){
-            return res.json({
+            return res.status(404).json({
                 success:false,
                 message:`Book with id ${bookId} does not exist`, 
 
             })
         }
-        res.json( {
+        res.status(200).json( {
             success:true, 
             data:singleBook
         });
@@ -67,6 +60,10 @@ const createBook=async(req,res)=>{
 
     }catch(e){
         console.log(e);
+        res.status(500).json({
+        success:false,
+        message:"Failed to create book"
+    });
     }
 
     
@@ -104,7 +101,7 @@ const deleteBook=async(req,res)=>{
     const bookId=req.params.id; 
     const bookToBeDeleted=await Book.findByIdAndDelete(bookId);
     if(!bookToBeDeleted){
-        res.status(400).json({
+        return res.status(404).json({
             success:false, 
             message:"Unable to delete Book, Book does not exist"
         })
